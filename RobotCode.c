@@ -26,20 +26,35 @@ void startTest(tMotor m)
 /*
 *turn left without moving forward, pivot turn
 */
-void left(int speed)
+void left(int time)
 {
-	motor[rightMotor] = speed;
+	motor[rightMotor] = HALF_SPEED;
+	motor[leftMotor] = -HALF_SPEED;
+	wait1Msec(time);
+	motor[leftMotor] = STATIONARY;
+	motor[rightMotor] = -STATIONARY;
 }
 
-void right(int speed)
+void right(int time)
 {
-	motor[leftMotor] = speed;
+	motor[leftMotor] = HALF_SPEED;
+	motor[rightMotor] = -HALF_SPEED;
+	wait1Msec(time);
+	motor[leftMotor] = STATIONARY;
+	motor[rightMotor] = -STATIONARY;
 }
 
 task main()
 {
+	/*
+	*Starts speed test, tests the turning mechanism
+	*First turns left, then right
+	*/
 	startTest(rightMotor);
+	wait1Msec (200);
 	startTest(leftMotor);
-	left(60);
-	right(60);
+	wait1Msec (200);
+	left(1000);
+	wait1Msec (200);
+	right(1000);
 }
