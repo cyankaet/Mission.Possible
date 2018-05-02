@@ -37,32 +37,38 @@ void right()
 {
 	motor[leftMotor] = 63;
 	motor[rightMotor] = -63;
-}
-
-task main()
-{
-//	startTest(rightMotor);
-//	startTest(leftMotor);
-	left();
-	right();
+	wait1Msec(500);
 }
 
 void move()
-{
-	if(vexRT[Btn7u] ==1){
-		motor[rightMotor] = FULL_SPEED;
-		motor[leftMotor] = FULL_SPEED;
-	}
-	else if(vexRT[Btn7d] ==1){
-		motor[rightMotor] = -FULL_SPEED;
-		motor[leftMotor] = -FULL_SPEED;
-	}
-	else if(vexRT[Btn7r] ==1){
-		motor[rightMotor] = -FULL_SPEED;
-		motor[leftMotor] = FULL_SPEED;
-	}
+{ 	while(true) {
+		if(vexRT[Btn7u] ==1){
+			motor[rightMotor] = FULL_SPEED;
+			motor[leftMotor] = FULL_SPEED;
+		}
+		else if(vexRT[Btn7d] ==1){
+			motor[rightMotor] = -FULL_SPEED;
+			motor[leftMotor] = -FULL_SPEED;
+		}
+		else if(vexRT[Btn7r] ==1){
+			motor[rightMotor] = -FULL_SPEED;
+			motor[leftMotor] = FULL_SPEED;
+		}
 		else if(vexRT[Btn7l] ==1){
-		motor[rightMotor] = FULL_SPEED;
-		motor[leftMotor] = -FULL_SPEED;
+			motor[rightMotor] = FULL_SPEED;
+			motor[leftMotor] = -FULL_SPEED;
+		}
+		else{
+			motor[rightMotor] = STATIONARY;
+			motor[leftMotor] = STATIONARY;
+		}
 	}
+}
+task main()
+{
+	//	startTest(rightMotor);
+	//	startTest(leftMotor);
+	left();
+	right();
+	move();
 }
