@@ -45,6 +45,25 @@ void dropFlag()
 	wait1Msec(500);
 	motor[flag] = STATIONARY;
 }
+
+int toBinary() {
+	int n=24;
+	// array to store binary number
+	int binaryNum[7];
+	// counter for binary array,
+	int i = 0;
+	while (n > 0) {
+		binaryNum[i] = n % 2;
+		n = n / 2;
+		i++;
+	}
+	string strBin = "";
+	// printing binary array in reverse order
+	for (int j = i - 1; j >= 0; j--) {
+		sprintf(strBin, "%d", binaryNum[j]);
+	}
+	return atoi(strBin);
+}
 void printData()
 {
 	while (true)
@@ -106,8 +125,10 @@ void move()
 task main()
 
 {
+	toBinary();
 	left();
 	right();
-	printData();
+	writeDebugStreamLine("num: %d", toBinary();
+	//printData();
 	//move();//sweet
 }
