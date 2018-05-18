@@ -17,6 +17,7 @@
 #define STATIONARY 0;
 #define BACK_HALF -63;
 #define BACK_FULL -127;
+int temps[10];
 
 /*
 *turn left without moving forward, pivot turn
@@ -26,6 +27,8 @@ void left()
 	motor[rightMotor] = 63;
 	motor[leftMotor] = 63;
 	wait1Msec(500);
+	motor[rightMotor] = STATIONARY;
+	motor[leftMotor] = STATIONARY;
 }
 
 void right()
@@ -33,6 +36,8 @@ void right()
 	motor[leftMotor] = -63;
 	motor[rightMotor] = -63;
 	wait1Msec(500);
+	motor[rightMotor] = STATIONARY;
+	motor[leftMotor] = STATIONARY;
 }
 void dropFlag()
 {
@@ -40,22 +45,26 @@ void dropFlag()
 	wait1Msec(500);
 	motor[flag] = STATIONARY;
 }
-void testLightSense()
+void printData()
 {
-	writeDebugStreamLine("sensor value: %d", SensorValue[temp]);
+	while (true)
+	{
+		writeDebugStreamLine("sensor value: %d", SensorValue[temp];
+		wait1Msec(250);
+	}
+
 }
 /*
 * meaure for ten seconds, every second
 */
-void lightSense()
+void tempSense()
 {
-	int temps[10];
 	for (int i = 0; i < 10; i++)
 	{
 		temps[i] = SensorValue[temp];
 		wait1Msec(1000);
-		writeDebugStreamLine("sensor value: %d", SensorValue[temp]);
 	}
+	printData();
 }
 
 void move()
@@ -85,14 +94,20 @@ void move()
 			dropFlag();
 		}
 		if(vexRT[Btn6U] == 1){
-			lightSense();
+			tempSense();
+		}
+		if(vexRT[Btn5D] == 1){
+			wait1Msec(10000);
+			printData();
 		}
 	}
 }
 
 task main()
+
 {
 	left();
 	right();
-	move();//sweet
+	printData();
+	//move();//sweet
 }
