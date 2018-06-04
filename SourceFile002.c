@@ -190,10 +190,10 @@ void lightSense()
 
 void windSense()
 {
-	int count;
-	int now;
+	int count = 0;
+	int now = 0;
 	int last = 0;
-	while (true) {
+	while (count < 13) {
 		//turns on all the lights
 		SensorValue[ledBoop1] = true;
 		SensorValue[ledBoop2] = true;
@@ -204,7 +204,6 @@ void windSense()
 		SensorValue[ledBoop7] = true;
 		SensorValue[ledBoop8] = true;
 		SensorValue[ledBoop9] = true;
-		SensorValue[ledBoop5]=false;
 		now = SensorValue[wind];
 		int diff = now-last;
 		writeDebugStreamLine("sensor value: %d", diff);
@@ -228,6 +227,7 @@ void windSense()
 				wait1Msec(1000);
 		}
 		last = now;
+		count++;
 	}
 }
 
@@ -287,7 +287,7 @@ void move()
 			motor[leftMotor] = STATIONARY;
 		}
 		if(vexRT[Btn6D] == 1){
-			lightSense3();
+			windSense();
 		}
 		if(vexRT[Btn5U] == 1){
 			lightSense();
@@ -297,7 +297,7 @@ void move()
 			printData();
 		}
 		if(vexRT[Btn6U] == 1){
-			lightSense2();
+			//lightSense2();
 		}
 	}
 }
@@ -308,6 +308,6 @@ task main()
 	//left();
 	//right();
 	//printData();
-	windSense();
-	//move();//sweet
+	//windSense();
+	move();//sweet
 }
