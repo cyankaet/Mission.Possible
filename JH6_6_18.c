@@ -174,14 +174,15 @@ void printData(){
 	}
 }
 /*
-* meaure for ten seconds, every second
+* measures the tempurature when u hit the button
 */
 void tempSense()
 {
+	curData++;
 	int dataValue = SensorValue[light];
 	toBinary(dataValue);
 	data[curData] = dataValue;
-	curData++;
+
 }
 
 void lightSense()
@@ -204,6 +205,7 @@ void lightSense()
 
 void windSense()
 {
+	curData++;
 	int count = 0;
 	int now = 0;
 	int last = 0;
