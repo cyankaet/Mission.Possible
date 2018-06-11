@@ -88,7 +88,7 @@ void armUp()
 void toBinary(int num) {
 	//number to convert to binary
 	int n=num;
-	writeDebugStreamLine("input num (decimal): %d", n);
+	//writeDebugStreamLine("input num (decimal): %d", n);
 
 	wait1Msec(1000);
 
@@ -106,9 +106,9 @@ void toBinary(int num) {
 		i++;
 	}
 	// printing binary array in reverse order
-	for (int j = 8; j >=0; j--) {
-		writeDebugStream("%d", binaryNum[j]);
-	}
+	//for (int j = 8; j >=0; j--) {
+	//writeDebugStream("%d", binaryNum[j]);
+	//}
 	if(binaryNum[0]==1){
 		SensorValue[ledBoop1] = false;
 	}
@@ -178,32 +178,30 @@ void testPrint()
 {
 	while (true)
 	{
-		writeDebugStreamLine("sensor value: %d", SensorValue[light];
+		writeDebugStreamLine("sensor value: %d", SensorValue[light]);
 		//toBinary(SensorValue[light]/10);
 		wait1Msec(2500);
 	}
 
 }
 /*
-* meaure for ten seconds, every second
+* measure temperature once and store in array
 */
 void tempSense()
 {
-
 	int dataValue = SensorValue[temp];
-	dataValue = 96.4331067 - (1.225232968 * dataValue) + (0.0038895616 * dataValue)* (0.0038895616 * dataValue);
-	SensorValue[ledBoop8] = false;
+	writeDebugStreamLine("sensor value b4: %d", dataValue);
+	dataValue =((-27.0/209.0)*(dataValue))+1674.0/19.0;
+	writeDebugStreamLine("sensor value: %d", dataValue);
 	toBinary(dataValue);
-		writeDebugStreamLine("sensor value: %d", dataValue);
 	data[curData] = dataValue;
 	curData++;
+
 }
 
 void lightSense()
 
 {
-	//printData();
-	//toBinary(SensorValue[light]/10);
 	bool looping;
 	while(looping){
 		motor[rightMotor] = HALF_SPEED;
@@ -306,12 +304,15 @@ curData++:
 }
 void autoMove() {
 	//wu glacier (should be pointed to piper pond
+//forward
 	motor[rightMotor] = HALF_SPEED;
 	motor[leftMotor] = -HALF_SPEED;
-	wait1Msec(1700);
+	wait1Msec(2000);
+	//right
 	motor[rightMotor] = -HALF_SPEED;
 	motor[leftMotor] = -HALF_SPEED;
-	wait1Msec(800);
+	wait1Msec(900);
+	//stop
 	motor[rightMotor] = STATIONARY;
 	motor[leftMotor] = STATIONARY;
 	//asd A As
@@ -319,11 +320,17 @@ void autoMove() {
 	armDown();
 	tempSense();
 	wait1Msec(1000);
+	//back
+	motor[rightMotor] = -HALF_SPEED;
+	motor[leftMotor] = HALF_SPEED;
+	wait1Msec(500);
 	lightSense();
+	//left
 	motor[rightMotor] = HALF_SPEED;
-	motor[leftMotor] = -HALF_SPEED;
-	wait1Msec(2000);
-
+	motor[leftMotor] = HALF_SPEED;
+	wait1Msec(1300);
+	motor[rightMotor] = STATIONARY;
+	motor[leftMotor] = STATIONARY;
 }
 
 void move()
@@ -393,10 +400,10 @@ void move()
 			dropFlag();
 		}
 		if(vexRT[Btn8U] == 1){
-			gravelDown();
+			gravelUp();
 		}
 		if(vexRT[Btn8D] == 1){
-			gravelUp();
+			gravelDown();
 		}
 		if(vexRT[Btn8R] == 1){
 			armDown();
@@ -409,7 +416,6 @@ void move()
 		}
 		if(vexRT[ch2] >10){
 			tempSense();
-				SensorValue[ledBoop9] = false;
 		}
 	}
 }
@@ -419,6 +425,6 @@ task main()
 {
 	//left();
 	//right();
-//tempSense();
+	//tempSense();
 	move();//sweet
 }
