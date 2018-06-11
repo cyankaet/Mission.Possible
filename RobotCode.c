@@ -76,7 +76,7 @@ void armDown()
 {
 	motor[arm] = 30;
 	wait1Msec(100);
-	motor[arm] = STATIONARY;
+
 }
 void armUp()
 {
