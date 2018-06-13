@@ -44,9 +44,6 @@ void left()
 	motor[leftMotor] = STATIONARY;
 }
 
-/*
-*turn right without moving forward, pivot turn
-*/
 void right()
 {
 	motor[leftMotor] = -63;
@@ -55,23 +52,19 @@ void right()
 	motor[rightMotor] = STATIONARY;
 	motor[leftMotor] = STATIONARY;
 }
-
-//turns flag motor so gears push flag off body
 void dropFlag()
 {
 	motor[flag] = 30;
 	wait1Msec(500);
 	motor[flag] = STATIONARY;
 }
-
-//pulls gravel tape holder up
 void gravelUp()
 {
 	motor[gravel] = 90;
 	wait1Msec(500);
 	motor[gravel] = STATIONARY;
 }
-//lets out string so gravel holder will fall
+
 void gravelDown()
 {
 	motor[gravel] = -90;
@@ -79,14 +72,12 @@ void gravelDown()
 	motor[gravel] = STATIONARY;
 }
 
-//pulls arm up (ignore naming convention), keeps holding the arm up
 void armDown()
 {
 	motor[arm] = 30;
 	wait1Msec(100);
 
 }
-//drops arm
 void armUp()
 {
 	motor[arm] = -30;
@@ -94,7 +85,6 @@ void armUp()
 	motor[arm] = STATIONARY;
 }
 
-//converts data values to binary and displays them on the LEDs
 void toBinary(int num) {
 	//number to convert to binary
 	int n=num;
@@ -170,7 +160,6 @@ void toBinary(int num) {
 /*
 *	Prints all the data in binary on the LED display
 * Waits 5 seconds in between each element
-* Clears the array for new data
 */
 void printData(){
 	for (int i = 0; i < 9; i++){
@@ -184,7 +173,7 @@ void printData(){
 	}
 	curData=0;
 }
-//general print statement used for calibration and debugging
+
 void testPrint()
 {
 	while (true)
@@ -210,7 +199,6 @@ void tempSense()
 
 }
 
-//find location of light by rotating until a certain value is found, and an extra third of a second
 void lightSense()
 
 {
@@ -226,8 +214,7 @@ void lightSense()
 		}
 	}
 }
-//displays on LEDs if fan is on, low, medium, or high
-//off is no LEDs, low 1, medium 2, high 3
+
 void windSense()
 {
 	int count = 0;
@@ -248,22 +235,22 @@ void windSense()
 		int diff = now-last;
 		writeDebugStreamLine("sensor value: %d", diff);
 		wait1Msec(300);
-		if(diff < -1400) {//high
+		if(diff < -1400) {
 			SensorValue[ledBoop1]=false;
 			SensorValue[ledBoop2]=false;
 			SensorValue[ledBoop3]=false;
 			wait1Msec(1000);
 		}
-		else if(diff < -1000) {//medium
+		else if(diff < -1000) {
 			SensorValue[ledBoop1]=false;
 			SensorValue[ledBoop2]=false;
 			wait1Msec(1000);
 		}
-		else if(diff < -500) {//low
+		else if(diff < -500) {
 			SensorValue[ledBoop1]=false;
 			wait1Msec(1000);
 		}
-		else{//off
+		else{
 			wait1Msec(1000);
 		}
 		last = now;
@@ -315,7 +302,6 @@ curData++:
 	SensorValue[ledBoop8] = true;
 	SensorValue[ledBoop9] = true;
 }
-//preprogrammed section of the rove
 void autoMove() {
 	//wu glacier (should be pointed to piper pond
 //forward
@@ -346,7 +332,7 @@ void autoMove() {
 	motor[rightMotor] = STATIONARY;
 	motor[leftMotor] = STATIONARY;
 }
-//makes the controller buttons call methods
+
 void move()
 {
 	//turns off all the lights
@@ -381,23 +367,23 @@ void move()
 	SensorValue[ledBoop9] = true;
 
 	while(true) {
-		if(vexRT[Btn7u] == 1){//forward
+		if(vexRT[Btn7u] == 1){
 			motor[rightMotor] = HALF_SPEED;
 			motor[leftMotor] = -HALF_SPEED;
 		}
-		else if(vexRT[Btn7d] == 1){//down
+		else if(vexRT[Btn7d] == 1){
 			motor[rightMotor] = -HALF_SPEED;
 			motor[leftMotor] = HALF_SPEED;
 		}
-		else if(vexRT[Btn7r] == 1){//right
+		else if(vexRT[Btn7r] == 1){
 			motor[rightMotor] = -HALF_SPEED;
 			motor[leftMotor] = -HALF_SPEED;
 		}
-		else if(vexRT[Btn7l] == 1){//left
+		else if(vexRT[Btn7l] == 1){
 			motor[rightMotor] = HALF_SPEED;
 			motor[leftMotor] = HALF_SPEED;
 		}
-		else{//stopped
+		else{
 			motor[rightMotor] = STATIONARY;
 			motor[leftMotor] = STATIONARY;
 		}
@@ -425,7 +411,7 @@ void move()
 		if(vexRT[Btn8L] == 1){
 			armUp();
 		}
-		if(vexRT[ch3] >10){//if moved forward
+		if(vexRT[ch3] >10){
 			printData();
 		}
 		if(vexRT[ch2] >10){
@@ -434,7 +420,6 @@ void move()
 	}
 }
 
-//runs the move() method to take input from the controller
 task main()
 
 {
